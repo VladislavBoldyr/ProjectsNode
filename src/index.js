@@ -1,18 +1,33 @@
 import express from 'express';
-import cors from 'cors';
 
 const app = express();
-app.use(cors());
-app.get('/', (req, res) => {
-  res.json({
-    hello: 'JS World',
+
+
+ function canonize(fullName) {
+   console.log(fullName.length);
+   const localFullName = fullName.split(' ');
+   if (localFullName.length > 3) {
+     return 'Invalid fullname';
+   }
+   if (localFullName.length == 1) {
+       return localFullName[0];
+   }
+   if (localFullName.length == 2) {
+     return localFullName[1]+ ' '+(localFullName[0].slice(0,1) + '.');
+   }
+   let array = (localFullName[2]) +' ' +(localFullName[0].slice(0,1) + '.') + ' '+(localFullName[1].slice(0,1) + '.');
+
+  return array;
+}
+
+app.get('/task2B',function (req,res) {
+
+  const fullName = canonize(req.query.fullname.toString());
+  return res.json({
+    fullName,
   });
 });
 
-app.get('/task2A', (req, res) => {
-    const sum = (+req.query.a || 0) + (+req.query.b || 0);
-    res.send(sum.toString());
-});
-app.listen(3000, () => {
-  console.log('Your app listening on port 3000!');
-});
+app.listen(3000, function () {
+ console.log('.!.');
+})
